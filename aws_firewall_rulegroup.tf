@@ -30,19 +30,19 @@ resource "aws_networkfirewall_rule_group" "Stateful-FWRuleGroup-Rule3" {
       ip_sets {
         key = "SUBNET1"
         ip_set {
-          definition = ["10.0.1.0/24"]
+          definition = ["10.1.1.0/24"]
         }
       }
       ip_sets {
         key = "SUBNET2"
         ip_set {
-          definition = ["10.0.2.0/24"]
+          definition = ["10.1.2.0/24"]
         }
       }
       ip_sets {
         key = "SUBNET3"
         ip_set {
-          definition = ["10.0.3.0/24"]
+          definition = ["10.1.3.0/24"]
         }
       }
 
