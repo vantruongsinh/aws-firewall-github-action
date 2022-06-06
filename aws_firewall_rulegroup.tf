@@ -10,21 +10,21 @@ terraform {
     workspaces {
       name = "aws-firewall-github-action"
     }
-    
+
   }
   required_version = ">= 1.2.2"
 }
 
 provider "aws" {
   # profile = "default"
-  region  = "us-east-1"
+  region = "us-east-1"
 }
 
 resource "aws_networkfirewall_rule_group" "Stateful-FWRuleGroup-Rule3" {
-  name = "Stateful-FWRuleGroup-Rule3"
+  name        = "Stateful-FWRuleGroup-Rule3"
   description = "Testing123"
-  capacity = 3000
-  type = "STATEFUL"
+  capacity    = 3000
+  type        = "STATEFUL"
   rule_group {
     rule_variables {
       ip_sets {
@@ -45,40 +45,40 @@ resource "aws_networkfirewall_rule_group" "Stateful-FWRuleGroup-Rule3" {
           definition = ["10.0.3.0/24"]
         }
       }
-                
+
     }
     rules_source {
-        stateful_rule {
-          action = "PASS"
-          header {
-                    destination      = "ANY"
-                    destination_port = "ANY"
-                    direction        = "FORWARD"
-                    protocol         = "TCP"
-                    source           = "ANY"
-                    source_port      = "ANY"
-                  }
-          rule_option {
-                    keyword  = "sid:1"
-                }
+      stateful_rule {
+        action = "PASS"
+        header {
+          destination      = "ANY"
+          destination_port = "ANY"
+          direction        = "FORWARD"
+          protocol         = "TCP"
+          source           = "ANY"
+          source_port      = "ANY"
         }
-        stateful_rule {
-          action = "PASS"
-          header {
-                    destination      = "$SUBNET3"
-                    destination_port = "ANY"
-                    direction        = "FORWARD"
-                    protocol         = "TCP"
-                    source           = "ANY"
-                    source_port      = "ANY"
-                  }
-          rule_option {
-                    keyword  = "sid:2"
-                }
+        rule_option {
+          keyword = "sid:1"
         }
       }
-      stateful_rule_options {
-            rule_order = "STRICT_ORDER"
+      stateful_rule {
+        action = "PASS"
+        header {
+          destination      = "$SUBNET3"
+          destination_port = "ANY"
+          direction        = "FORWARD"
+          protocol         = "TCP"
+          source           = "ANY"
+          source_port      = "ANY"
+        }
+        rule_option {
+          keyword = "sid:2"
+        }
       }
-    }           
+    }
+    stateful_rule_options {
+      rule_order = "STRICT_ORDER"
+    }
   }
+}
